@@ -1,13 +1,61 @@
-# signal
-ISignalReceiver: Цей клас є інтерфейсом для всіх приймачів сигналів. Він містить один віртуальний метод receiveSignal, який дозволяє приймачам обробляти отримані сигнали.
+# Signal Processing System
 
-SomeIpReceiver, HttpReceiver, CanReceiver: Ці класи реалізують інтерфейс ISignalReceiver та представляють конкретні приймачі сигналів для різних типів сигналів.
+This project implements a basic signal processing system with multiple channels and components. The system is designed to receive signals from various protocols, distribute them across multiple channels, and process them using different consumers.
 
-IFinalReceiver: Цей клас є інтерфейсом для кінцевих приймачів сигналів, який також має один віртуальний метод processSignal.
+## Table of Contents
 
-HmiReceiver: Цей клас реалізує інтерфейс IFinalReceiver та представляє кінцевого приймача сигналів для взаємодії з користувачем (HMI).
+- [Project Structure](#project-structure)
+- [System Design](#system-design)
+    - [SignalReceiver](#signalreceiver)
+    - [SignalDistributor](#signaldistributor)
+    - [SignalConsumer](#signalconsumer)
+- [Installation](#installation)
+- [Running the Project](#running-the-project)
 
-SignalDispatcher: Цей клас відповідає за реєстрацію приймачів сигналів та кінцевих приймачів та розподіл сигналів між ними.
+## Project Structure
 
-SignalComponent: Цей клас дозволяє компонентам системи відправляти сигнали через диспетчер.
-У функції main створюються об'єкти приймачів сигналів і кінцевих приймачів, реєструються в диспетчері, створюються компоненти і відправляються тестові сигнали.
+```plaintext
+src/
+  implementations/
+    SignalReceiverImpl.ts      # Implementation of signal receiver
+    SignalDistributorImpl.ts   # Implementation of signal distributor
+    HMIConsumerImpl.ts         # Implementation of HMI signal consumer
+  interfaces/
+    ISignalReceiver.ts         # Interface for signal receiver
+    ISignalDistributor.ts      # Interface for signal distributor
+    ISignalConsumer.ts         # Interface for signal consumer
+  models/
+    Signal.ts                  # Signal model
+  main.ts                      # Main entry of the application
+```
+
+## System Design
+
+### SignalReceiver
+    The SignalReceiver interface defines methods for receiving signals from various protocols such as SOME/IP, HTTP, CAN. The implementation SignalReceiverImpl processes these signals and distributes them to the appropriate channels.
+
+### SignalDistributor
+    The SignalDistributor interface defines methods for distributing received signals to the respective consumers. The implementation SignalDistributorImpl handles the distribution of signals to the registered consumers.
+
+### SignalConsumer
+    The SignalConsumer interface defines methods for consuming the signals needed by the HMI or other components. The implementation HMIConsumerImpl processes the signals as required by the HMI.
+
+![Название блок-схемы](./assets/signal.png)
+
+## Installation
+```bash
+# clone repo
+git clone https://github.com/Mefedim/signal.git
+
+# go to the project folder
+cd signal
+
+# install dependencies
+npm install
+```
+
+## Running the Project
+  To run the project, execute the following command:
+```bash
+npm start
+```
